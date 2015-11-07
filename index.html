@@ -102,7 +102,7 @@
 <body>
 <div id="sidebar">
     <header>
-        <img src="assets/img/logo.png" alt="Programming Language Network"/>
+        <img src="assets/img/mylogo1.gif" alt="Programming Language Network"/>
         <p>
             A graph of programming languages that consists with
             their influences, companies, developers, dialects, implementations.
@@ -116,9 +116,14 @@
 <script type="text/javascript">
     var width = window.innerWidth,
         height = window.innerHeight;
-
+		
+		/**
+		* zoomer: event listeners to handle zooming and panning gestures on a container element
+		* scalExtent: Specifies the zoom scale's allowed range as a two-element array, [minimum, maximum]
+		*/
     var zoomer = d3.behavior.zoom().scaleExtent([-20, 20]).on("zoom", zoom);
 
+	
     var svg = d3
         .select("body")
         .append("svg")
@@ -128,7 +133,8 @@
         .append("g")
         .call(zoomer)
         .append("g");
-
+		
+		/* location.hash: anchor part of the url. e.g. #part2 in http://www.example.com/test.htm#part2 */
     if (!location.hash) {
         zoomer.scale(0.6);
         zoomer.translate([850, 700]);
@@ -171,6 +177,9 @@
         "Implementation language": "#FFD0D4"
     };
 
+		/**
+		* add texts into sidebar about node
+		*/
     var nodeGroupInfo = d3.select(".nodes-info")
         .selectAll("li")
         .data(d3.keys(nodeColors))
@@ -181,7 +190,9 @@
     });
     nodeGroupInfo.append("span").text(function (d) {return d}, "span");
 
-
+		/**
+		* add texts into sidebar about edge
+		*/
     var edgeInfo = d3.select(".edges-info")
         .selectAll("li")
         .data(d3.keys(edgeColors))
@@ -192,7 +203,7 @@
     });
     edgeInfo.append("span").text(function (d) {return d}, "span");
 
-
+		/* load node information */
     d3.json("data/network.json", function(error, graph) {
         graphSource = graph;
         loadGraph();
@@ -222,7 +233,7 @@
               .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
               .on('click', function (d) {
                     window.location = '#' + locationHashMapping[d.group] + ":" + d.name;
-                    catchLocationHash()
+                    catchLocationHash() /* when a node is click... */
             });
 
         node.append("circle")
@@ -248,6 +259,8 @@
         catchLocationHash(true);
     }
 
+
+		/* highlight node d */
     function selectNode(d, focus) {
         blurNodes();
         node.attr("class", "node background");
@@ -297,6 +310,13 @@
 
     rect.on('click', blurNodes);
 
+		/** assume url is https://fatiherikli.github.io/programming-language-network/#language:C 
+		* group: language
+		* hashParts[1]: C
+		* focus: boolean
+		* if group is not found, return false
+		* else iterate all nodes, 
+		*/
     function catchLocationHash(focus) {
         var hash = location.hash;
         if (hash && hash.indexOf(":") > 0) {
