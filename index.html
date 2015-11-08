@@ -193,7 +193,7 @@
     edgeInfo.append("span").text(function (d) {return d}, "span");
 
 
-    d3.json("data/network.json", function(error, graph) {
+    d3.json("data/county.json", function(error, graph) {
         graphSource = graph;
         loadGraph();
     });
