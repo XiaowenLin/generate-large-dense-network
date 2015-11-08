@@ -202,13 +202,8 @@
     });
     edgeInfo.append("span").text(function (d) {return d}, "span");
 
-<<<<<<< HEAD
 
     d3.json("data/county.json", function(error, graph) {
-=======
-		/* load node information */
-    d3.json("data/network.json", function(error, graph) {
->>>>>>> comments_and_logo
         graphSource = graph;
         loadGraph();
     });
