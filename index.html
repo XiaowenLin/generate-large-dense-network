@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Programming Language Network</title>
+    <title>county-trade-network</title>
     <script src="assets/lib/d3.v3.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <style type="text/css">
@@ -19,16 +19,15 @@
             -webkit-opacity: .20;
         }
 
-        .hover {
-
-        }
 
         .link {
-            stroke-width: 0.5;
+            stroke-width: 0.3;
+
         }
 
         .link.hover {
-            stroke-width: 1.2;
+            stroke-width: 2.0;
+            stroke: #C3FF68;
         }
 
         .overlay {
@@ -47,7 +46,7 @@
 
         #sidebar {
             background: rgba(29, 29, 29, 0.93);
-            width: 307px;
+            width: 200px;
             position: absolute;
             height: 100%;
             color: #b3b3b3;
@@ -103,9 +102,9 @@
 <body>
 <div id="sidebar">
     <header>
-        <img src="assets/img/mylogo.png" alt="Programming Language Network"/>
+        <h2>Huge Complete Network Visualization</h2>
         <p>
-            A graph composed of homogeneous or heterogeneous nodes.
+            A nearly complete graph with counties info and the trade amount among them.
         </p>
     </header>
     <h3>Nodes</h3>
@@ -153,28 +152,28 @@
     var node, link, text, graphSource;
 
     var nodeColors = {
-        "county": "#F9BF3B",
-        "Computer Scientist": "#FF0066",
-        "Foundation": "#FFFF00",
-        "Dialect": "#6CDFEA",
-        "Implementation": "#C3FF68"
+        "county": "#F9BF3B"//,
+//        "Computer Scientist": "#FF0066",
+//        "Foundation": "#FFFF00",
+//        "Dialect": "#6CDFEA",
+//        "Implementation": "#C3FF68"
     };
 
     var locationHashMapping = {
-        "county": "county",
-        "Computer Scientist": "scientist",
-        "Foundation": "foundation",
-        "Dialect": "dialect",
-        "Implementation": "implementation"
+        "county": "county"//,
+//        "Computer Scientist": "scientist",
+//        "Foundation": "foundation",
+//        "Dialect": "dialect",
+//        "Implementation": "implementation"
     };
 
     var edgeColors = {
-        "Influenced by": "#6b6b6b",
-        "Designed by": "#FF0066",
-        "Developer": "#FFFF00",
-        "Dialects": "#6CDFEA",
-        "Major implementations": "#C3FF68",
-        "Implementation language": "#FFD0D4"
+        "Trade amount":"#FF0066"//,
+//        "Designed by":  "#6b6b6b",
+//        "Developer": "#FFFF00",
+//        "Dialects": "#6CDFEA",
+//        "Major implementations": "#C3FF68",
+//        "Implementation language": "#FFD0D4"
     };
 
 		/**
@@ -205,7 +204,6 @@
 
 
     d3.json("scripts/county_10000.json", function(error, graph) {
-        debugger
         graphSource = graph;
         loadGraph();
     });
@@ -220,8 +218,6 @@
             .attr("fill", "none")
             .attr("stroke", "#FF3020")
             .attr("d", function(d) {
-								console.log(d.source);
-								console.log(d.target);
                 var target = graphSource.nodes.filter(function(x){return x.id == d.target;})[0];
                 var source = graphSource.nodes.filter(function(x){return x.id == d.source;})[0];
                 var dx = target.x - source.x,
@@ -270,16 +266,16 @@
         blurNodes();
         node.attr("class", "node background");
         d3.select(this).attr("class", "node hover");
-
         link.filter(function (_d) {
-            return _d.source == graphSource.nodes.indexOf(d)
+            return _d.source == d.id;
         })
         .attr("class", "link hover")
         .each(function (_d) {
             node.filter(function (_n) {
-                return _n.id == graphSource.nodes[_d.target].id
+                return _n.id == _d.target.id
             })
-            .attr("class", "node hover");
+            .attr("class", "node hover")
+                    .style("fill", function(d) { return "#C3FF68"});
         });
 
         if (focus) {

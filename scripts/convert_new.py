@@ -29,9 +29,9 @@ def map_xy(nodes, svgw, svgh, scale):
         x = float(nodes[i]['x'])
         y = float(nodes[i]['y'])
         if xmax != xmin:
-            nodes[i]['x'] = ( svgw / (xmax - xmin) * (x - xmin) ) * scale
+            nodes[i]['x'] = ( svgw / (xmax - xmin) * (x - xmin) ) * scale - i*0.006 -900
         if ymax != ymin:
-            nodes[i]['y'] = ( svgh / (ymax - ymin) * (y - ymin) ) * scale
+            nodes[i]['y'] = ( svgh / (ymax - ymin) * (y - ymin) ) * scale -600
     return nodes
 
 
@@ -69,16 +69,18 @@ node_file.close()
 
 edge_file = open("/Users/ztx/Desktop/CS519_Project/part-r-00000","r")
 edges = []
+count = 0
 for line in edge_file:
-    parts = line.split(",")
-    edge = {}
-    edge["source"] = int(parts[0])
-    edge["target"] = int(parts[1])
-    edge["value"] =  float(parts[2].replace("\n","") )
-    edge["name"] = "trade"
-    edges.append(edge)
-    if len(edges) > 10000:
-        break
+    if (count %100) == 0:
+        parts = line.split(",")
+        edge = {}
+        edge["source"] = int(parts[0])
+        edge["target"] = int(parts[1])
+        edge["value"] =  float(parts[2].replace("\n","") )
+        edge["name"] = "trade"
+        edges.append(edge)
+    count += 1
+
 edge_file.close()
 
 
