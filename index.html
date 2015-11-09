@@ -24,7 +24,7 @@
         }
 
         .link {
-            stroke-width: 0.1;
+            stroke-width: 0.5;
         }
 
         .link.hover {
@@ -204,7 +204,8 @@
     edgeInfo.append("span").text(function (d) {return d}, "span");
 
 
-    d3.json("data/county.json", function(error, graph) {
+    d3.json("scripts/county_10000.json", function(error, graph) {
+        debugger
         graphSource = graph;
         loadGraph();
     });
