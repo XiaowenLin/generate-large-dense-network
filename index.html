@@ -326,6 +326,8 @@
         if (hash && hash.indexOf(":") > 0) {
             var group = null,
                 hashParts = hash.substr(1).split(":");
+                hashParts[1] = hashParts[1].replace(/%20/g, ' ');
+                hashParts[1] = hashParts[1].replace(/%22/g, '');
             for (var key in locationHashMapping) {
                 if (locationHashMapping[key] == hashParts[0]) {
                     group = key;
@@ -334,9 +336,18 @@
             if (!group) {
                 return false;
             }
+            /*
+            ds = graphSource.nodes.filter(function(x){ return (x['group'] == group) && (x['name'] == hashParts[1]) })
+            $(ds).each(function (d){
+                selectNode.call(this, d, focus);
+                console.log('highlight node');
+            })
+            selectNode.call(this, d, focus);
+            */
             d3.selectAll(".node").each(function (d) {
-                if (d.group == group && d.name == hashParts[1]) {
+                if ( (d.group == group) && (d.name == hashParts[1]) ) {
                     selectNode.call(this, d, focus);
+                    console.log('highlight node');
                 }
             })
         }

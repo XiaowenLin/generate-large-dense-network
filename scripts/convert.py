@@ -43,7 +43,7 @@ for line in node_file:
         node["w"] = 10
         node["h"] = 10
         node["id"] = unicode( parts[1] , errors='ignore')
-        node["name"] = unicode(parts[3], errors='ignore')
+        node["name"] = unicode(parts[3].replace('"', ''), errors='ignore')
         node["POP10"] = unicode( parts[4] , errors='ignore')
         node["ALAND"] = unicode( parts[6] , errors='ignore')
         node["AWATER"] =unicode( parts[7] , errors='ignore')
